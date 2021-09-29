@@ -23,7 +23,7 @@ export const Title = styled.h1`
 
 export const List = styled.div`
     background-color: #8CB3DB;
-    width: 100%;
+    width: 90%;
     height: auto;
     border-radius: 5px;
     border-bottom: 0;
@@ -110,6 +110,7 @@ export const Area = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: 20px;
+    width: 90%;
 `;
 
 export const SelectButton = styled.button`

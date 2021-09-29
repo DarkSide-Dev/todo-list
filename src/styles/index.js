@@ -2,7 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: auto;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    padding-bottom: 20px;
     background-color: #478dd3;
     display: flex;
     flex-direction: column;
@@ -78,6 +82,7 @@ export const Area = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin-top: 20px;
 `;
 
 export const Icon = styled.img`

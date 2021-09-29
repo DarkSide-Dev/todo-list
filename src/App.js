@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {Container, Title, List, ListItem, ListItemP, Button, Area, Icon} from './styles/index';
 
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
+
 import deleteIcon from './assets/img/delete.png';
 
 import SearchBox from './components/SearchBox';
@@ -10,6 +13,7 @@ function App(){
   const [list, setList] = useState([]);
   const [text, setText] = useState('');
   const [clear, setClear] = useState(false);
+  const [date, setDate] = useState(new Date());
   
   useEffect(() => {
 
@@ -26,7 +30,7 @@ function App(){
   function addItem(newItem){
 
     if(newItem.length > 0){
-      let newList = [...list, {title: newItem, done: false}];
+      let newList = [...list, {title: newItem, date: date, done: false}];
 
       localStorage.setItem('list', JSON.stringify(newList));
 
@@ -62,12 +66,23 @@ function App(){
 
     setList(ex);
 
+  }  
+
+  function changeDate(event){
+
+    setDate(event);
+    
   }
+
+  // localStorage.clear();
   
   return(
 
     <Container>
+
       <Title>Lista de Tarefas</Title>
+
+      <Calendar onChange={changeDate} value={date} />
 
       <Area>
       
@@ -89,25 +104,35 @@ function App(){
 
         {list.map((item, index) => {
 
-          return (
+          let day = new Date(item.date);
 
-            <ListItem color={item.done?"#15AD31":"#FAEB07"} colorHover={item.done?"#157B31":"#DED007"} key={index}>
+          let day2 = new Date(date);
 
-              <ListItemP onClick={() => handleToggleDone(index)}>
-                {item.done &&
-                  <del>{item.title}</del>
-                }              
+          day = day.getDate() + "" + day.getMonth() + "" + day.getFullYear();
 
-                {!item.done &&
-                  item.title
-                }
-              </ListItemP>
+          day2 = day2.getDate() + "" + day2.getMonth() + "" + day2.getFullYear();
 
-              <Icon src={deleteIcon} onClick={() => {deleteItem(index)}} />
+          if(day == day2){
+            return (
 
-            </ListItem>
-
-          );
+              <ListItem color={item.done?"#15AD31":"#FAEB07"} colorHover={item.done?"#157B31":"#DED007"} key={index}>
+  
+                <ListItemP onClick={() => handleToggleDone(index)}>
+                  {item.done &&
+                    <del>{item.title}</del>
+                  }              
+  
+                  {!item.done &&
+                    item.title
+                  }
+                </ListItemP>
+  
+                <Icon src={deleteIcon} onClick={() => {deleteItem(index)}} />
+  
+              </ListItem>
+  
+            );
+          }
 
         })}
 

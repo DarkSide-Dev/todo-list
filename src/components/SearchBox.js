@@ -6,8 +6,18 @@ const InputText = styled.input`
     border-radius: 5px;
     padding: 15px;
     font-size: 17px;
-    flex: 1;
     outline: none;
+
+    @media(max-width: 600px) {
+        flex: 1;
+    }
+
+    @media(min-width: 601px) {
+        width: 300px;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+    
 `;
 
 function SearchBox(props){

@@ -95,17 +95,26 @@ export const Button = styled.button`
     font-size: 17px;
     background-color: #05da15;
     cursor: pointer;
-    flex: 1;
     outline: none;
 
     &:hover{
         background-color: #04bf12;
     }
+
+    @media(max-width: 600px) {
+        flex: 1;
+    }
+
+    @media(min-width: 601px) {
+        width: 300px;
+        margin-right: 5px;
+        margin-left: 5px;
+    } 
 `;
 
 export const Area = styled.div`
     display: flex;
-    flex-direction: row;
+    flex-direction: row;    
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
@@ -125,4 +134,13 @@ export const SelectButton = styled.button`
     box-shadow: 0 2px 5px #173d62;
     color: ${props=>props.textColor};
     padding: 5px 0;
+`;
+
+export const Circle = styled.div`
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: yellow;
+    margin-left: auto;
+    margin-right: auto;
 `;

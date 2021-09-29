@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Container, Title, List, ListItem, ListItemP, Button, Area, Icon, SelectButton} from './styles/index';
+import {Container, Title, List, ListItem, ListItemP, Button, Area, Icon, SelectButton, Circle} from './styles/index';
 
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -15,6 +15,7 @@ function App(){
   const [clear, setClear] = useState(false);
   const [date, setDate] = useState([new Date()]);
   const [isSelect, setIsSelect] = useState(false);
+  const [listDate, setListDate] = useState([]);
   
   useEffect(() => {
 
@@ -77,6 +78,8 @@ function App(){
 
   function changeDate(event){
 
+    // console.log(event);
+
     let x = new Date().setHours(0, 0, 0, 0);
 
     setDate([new Date(event)]);
@@ -88,6 +91,29 @@ function App(){
     }
     
   }
+
+  function searchTask(dat){
+
+    let x = false;
+      
+    list.map((item, index) => {
+
+      // console.log(new Date(new Date(item.date).setHours(0, 0, 0, 0)));
+      // console.log(dat);
+
+      if(new Date(new Date(item.date).setHours(0, 0, 0, 0)).getTime() == dat.getTime()){ 
+        
+        if(!item.done){
+          x = true;
+        }
+
+      }
+
+    });
+
+    return x;
+
+  }
   
   return(
 
@@ -95,7 +121,7 @@ function App(){
 
       <Title>Lista de Tarefas</Title>
 
-      <Calendar onChange={changeDate} value={date} />
+      <Calendar onChange={changeDate} value={date} tileContent={({ activeStartDate, date, view }) => view === 'month' && searchTask(date) ? <Circle /> : null} />
       <SelectButton onClick={() => setIsSelect(!isSelect)} textColor={isSelect?"#eee":"#000"} color={isSelect?"#1D3854":"#70B8FF"}>{isSelect?"Selecionar apenas uma data":"Selecionar várias datas"}</SelectButton>
 
       <Area>
@@ -144,7 +170,7 @@ function App(){
           if(day == day2 || (showSelect)){
 
             let dat = new Date(item.date);
-            dat = dat.getDate() + '/' + (dat.getMonth()+1) + '/' + dat.getFullYear();
+            dat = dat.getDate() + '/' + (dat.getMonth()+1) + '/' + dat.getFullYear();            
 
             return (
 

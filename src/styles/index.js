@@ -23,27 +23,28 @@ export const Title = styled.h1`
 
 export const List = styled.div`
     background-color: #8CB3DB;
-    max-width: 100%;
-    width: 200px;
+    width: 100%;
     height: auto;
     border-radius: 5px;
-    border: 3px solid #555;
     border-bottom: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
+
+    @media(min-width: 601px) {
+        justify-content: center;
+        align-items: center;
+    }
 `;
 
 export const ListItem = styled.p`
     background-color: ${props=>props.color};
-    width: 100%;
     font-size: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 50px;
-    border-bottom: 2px solid #555;
-    margin: 0;
+    border: 2px solid #555;
     font-family: monospace;
     cursor: pointer;
     flex-wrap: wrap;
@@ -52,6 +53,31 @@ export const ListItem = styled.p`
     &:hover{
         background-color: ${props=>props.colorHover};
     }
+
+    @media(max-width: 600px) {
+        flex: 1;
+        min-width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+        min-height: 100px;
+        align-items: flex-start;
+    }
+
+    @media(min-width: 601px) {
+        width: 300px;
+        margin-right: 5px;
+        margin-left: 5px;
+    } 
+`;
+
+export const Icon = styled.img`
+    width: 40px;
+    padding: 6px;
+    margin: 10px 0;
+    border-radius: 0;
+    border: 2px solid black;
+    background-color: ${props => props.color};
 `;
 
 export const ListItemP = styled.p`
@@ -69,7 +95,8 @@ export const Button = styled.button`
     font-size: 17px;
     background-color: #05da15;
     cursor: pointer;
-    margin-bottom: 20px;
+    flex: 1;
+    outline: none;
 
     &:hover{
         background-color: #04bf12;
@@ -85,11 +112,16 @@ export const Area = styled.div`
     margin-top: 20px;
 `;
 
-export const Icon = styled.img`
-    width: 40px;
-    position: absolute;
-    right: -57px;
-    background-color: gold;
-    border-radius: 50%;
-    padding: 5px;
+export const SelectButton = styled.button`
+    background-color: ${props=>props.color};
+    max-width: 100%;
+    width: 300px;
+    border: 1px solid #a0a096;
+    border-top: 0;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 17px;
+    box-shadow: 0 2px 5px #173d62;
+    color: ${props=>props.textColor};
+    padding: 5px 0;
 `;

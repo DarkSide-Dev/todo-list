@@ -6,8 +6,8 @@ const InputText = styled.input`
     border-radius: 5px;
     padding: 15px;
     font-size: 17px;
-    width: auto;
-    margin-bottom: 20px;
+    flex: 1;
+    outline: none;
 `;
 
 function SearchBox(props){

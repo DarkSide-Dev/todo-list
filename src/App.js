@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {Container, Title, List, ListItem, ListItemP, Button, Area, Icon} from './styles/index';
+import {Container, Title, List, ListItem, ListItemP, Button, Area, Icon, SelectButton} from './styles/index';
 
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -13,24 +13,31 @@ function App(){
   const [list, setList] = useState([]);
   const [text, setText] = useState('');
   const [clear, setClear] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState([new Date()]);
+  const [isSelect, setIsSelect] = useState(false);
   
   useEffect(() => {
 
     if(localStorage.getItem('list')){
+
       setList(JSON.parse(localStorage.getItem('list')));
+
     }
 
   }, []);
 
   function setItem(item){
+
     setText(item);
+
   }
-  
+
   function addItem(newItem){
 
     if(newItem.length > 0){
-      let newList = [...list, {title: newItem, date: date, done: false}];
+
+      let x = new Date(date).setHours(0, 0, 0, 0);
+      let newList = [...list, {title: newItem, date: x, done: false}];
 
       localStorage.setItem('list', JSON.stringify(newList));
 
@@ -70,11 +77,17 @@ function App(){
 
   function changeDate(event){
 
-    setDate(event);
+    let x = new Date().setHours(0, 0, 0, 0);
+
+    setDate([new Date(event)]);
+
+    if(isSelect){
+
+      setDate([new Date(x), event].sort((a,b)=>a.getTime()-b.getTime()));
+
+    }
     
   }
-
-  // localStorage.clear();
   
   return(
 
@@ -83,6 +96,7 @@ function App(){
       <Title>Lista de Tarefas</Title>
 
       <Calendar onChange={changeDate} value={date} />
+      <SelectButton onClick={() => setIsSelect(!isSelect)} textColor={isSelect?"#eee":"#000"} color={isSelect?"#1D3854":"#70B8FF"}>{isSelect?"Selecionar apenas uma data":"Selecionar várias datas"}</SelectButton>
 
       <Area>
       
@@ -104,18 +118,37 @@ function App(){
 
         {list.map((item, index) => {
 
-          let day = new Date(item.date);
+          let day = new Date(new Date(item.date).setHours(0, 0, 0, 0));
 
-          let day2 = new Date(date);
+          let day2;
+
+          if(date.length == 1){
+            day2 = new Date(new Date(date[0]).setHours(0, 0, 0, 0));
+          }
+          else{
+            day2 = new Date(new Date().setHours(0, 0, 0, 0));
+          }
+
+          let showSelect;
 
           day = day.getDate() + "" + day.getMonth() + "" + day.getFullYear();
 
           day2 = day2.getDate() + "" + day2.getMonth() + "" + day2.getFullYear();
 
-          if(day == day2){
+          if((new Date(item.date).getTime() >= new Date(date[0]).getTime() && new Date(item.date).getTime() <= new Date(date[1]).getTime())){
+
+            showSelect = true;
+
+          }
+
+          if(day == day2 || (showSelect)){
+
+            let dat = new Date(item.date);
+            dat = dat.getDate() + '/' + (dat.getMonth()+1) + '/' + dat.getFullYear();
+
             return (
 
-              <ListItem color={item.done?"#15AD31":"#FAEB07"} colorHover={item.done?"#157B31":"#DED007"} key={index}>
+              <ListItem color={item.done?"#1EFA46":"#FAEB07"} colorHover={item.done?"#16BA34":"#DED007"} key={index}>
   
                 <ListItemP onClick={() => handleToggleDone(index)}>
                   {item.done &&
@@ -125,9 +158,13 @@ function App(){
                   {!item.done &&
                     item.title
                   }
+
+                  <br/><br/>
+
+                  {dat}
                 </ListItemP>
   
-                <Icon src={deleteIcon} onClick={() => {deleteItem(index)}} />
+                <Icon color={item.done?"#0D6E1F":"#F57100"} src={deleteIcon} onClick={() => {deleteItem(index)}} />
   
               </ListItem>
   

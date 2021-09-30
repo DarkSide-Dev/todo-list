@@ -177,7 +177,7 @@ function App(){
           changeClear={e=>setClear(e)}
         />
 
-        <Button onClick={() => {addItem(text)}}>Adicionar</Button>
+        <Button onClick={() => {addItem(text)}}>{isSelect?"Adicionar nas datas selecionadas":"Adicionar"}</Button>
 
       </Area>
 

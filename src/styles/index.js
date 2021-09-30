@@ -93,12 +93,12 @@ export const Button = styled.button`
     border-radius: 5px;
     padding: 15px;
     font-size: 17px;
-    background-color: #05da15;
+    background-color: #8FE880;
     cursor: pointer;
     outline: none;
 
     &:hover{
-        background-color: #04bf12;
+        background-color: #8CFF9F;
     }
 
     @media(max-width: 600px) {
@@ -134,6 +134,7 @@ export const SelectButton = styled.button`
     box-shadow: 0 2px 5px #173d62;
     color: ${props=>props.textColor};
     padding: 5px 0;
+    font-weight: bold;
 `;
 
 export const Circle = styled.div`

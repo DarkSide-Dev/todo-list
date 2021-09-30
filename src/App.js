@@ -15,9 +15,8 @@ function App(){
   const [clear, setClear] = useState(false);
   const [date, setDate] = useState([new Date()]);
   const [isSelect, setIsSelect] = useState(false);
-  const [listDate, setListDate] = useState([]);
   
-  useEffect(() => {
+  useEffect(() => {    
 
     if(localStorage.getItem('list')){
 
@@ -37,16 +36,60 @@ function App(){
 
     if(newItem.length > 0){
 
-      let x = new Date(date).setHours(0, 0, 0, 0);
-      let newList = [...list, {title: newItem, date: x, done: false}];
+      if(date.length == 2){
+        
+        let data1 = new Date(date[0]);
+        let data2 = new Date(date[1]);
 
-      localStorage.setItem('list', JSON.stringify(newList));
+        let exit = false;
+        let contDay = 0;
 
-      setList(newList);
+        let newList = [...list];
 
-      setClear(true);
+        while(!exit){
 
-      setText('');
+          let data3 = new Date(`${data1.getFullYear()}-${data1.getMonth()+1}-${data1.getDate()}`);
+
+          data3.setDate(data3.getDate()+contDay);
+
+          let x = new Date(data3).setHours(0, 0, 0, 0);
+          
+          newList = [...newList, {title: newItem, date: x, done: false}];        
+
+          if(data3.getDate()+""+(data3.getMonth()+1)+""+data3.getFullYear() == data2.getDate()+""+(data2.getMonth()+1)+""+data2.getFullYear()){
+
+            exit = true;
+
+            setClear(true);
+
+            setText('');
+
+          }
+          
+          contDay++;
+
+        }
+
+        localStorage.setItem('list', JSON.stringify(newList));
+
+        setList(newList);
+
+      }
+      else{
+
+        let x = new Date(date).setHours(0, 0, 0, 0);
+        let newList = [...list, {title: newItem, date: x, done: false}];
+
+        localStorage.setItem('list', JSON.stringify(newList));
+
+        setList(newList);
+
+        setClear(true);
+
+        setText('');
+
+      }
+      
     }
 
   }
@@ -122,7 +165,7 @@ function App(){
       <Title>Lista de Tarefas</Title>
 
       <Calendar onChange={changeDate} value={date} tileContent={({ activeStartDate, date, view }) => view === 'month' && searchTask(date) ? <Circle /> : null} />
-      <SelectButton onClick={() => setIsSelect(!isSelect)} textColor={isSelect?"#eee":"#000"} color={isSelect?"#1D3854":"#70B8FF"}>{isSelect?"Selecionar apenas uma data":"Selecionar várias datas"}</SelectButton>
+      <SelectButton onClick={() => setIsSelect(!isSelect)} textColor={isSelect?"#eee":"#000"} color={isSelect?"#1D3854":"#70B8FF"}>{isSelect?"Modo: seleção multipla":"Modo: seleção única"}</SelectButton>
 
       <Area>
       
@@ -174,7 +217,7 @@ function App(){
 
             return (
 
-              <ListItem color={item.done?"#1EFA46":"#FAEB07"} colorHover={item.done?"#16BA34":"#DED007"} key={index}>
+              <ListItem color={item.done?"#5AE85E":"#FFE954"} colorHover={item.done?"#9DFF70":"#E8C141"} key={index}>
   
                 <ListItemP onClick={() => handleToggleDone(index)}>
                   {item.done &&

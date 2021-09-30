@@ -140,7 +140,7 @@ export const Circle = styled.div`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: yellow;
+    background-color: #478dd3;
     margin-left: auto;
     margin-right: auto;
 `;
